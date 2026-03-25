@@ -1,4 +1,4 @@
-import SkillDetail from "@/components/SkillDetail";
+import SkillDetail from "@/components/SkillEntries";
 import { useSkill } from "@/context/skillContext";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { FlatList, StyleSheet, Text, View } from "react-native";

@@ -3,6 +3,12 @@ import { createContext, ReactNode, useContext, useState } from "react";
 
 interface SkillContextType {
   skillList: Skill[];
+  addSkill: (skill: Skill) => void;
+  /*addEntry: (entry: Entry) => void;
+  updateSkill: (name: string, updatedSkill: Skill) => void;
+  updateEntry: (id: string, updatedentry: Entry) => void;
+  deleteSkill: (name: string) => void;
+  deleteEntry: (id: string) => void;*/
 }
 
 const SkillContext = createContext<SkillContextType | undefined>(undefined);
@@ -70,8 +76,22 @@ export function SkillProvider({ children }: { children: ReactNode }) {
     },
   ]);
 
+  const addSkill = (skill: Skill) => {
+    setSkillList([...skillList, skill]);
+  };
+
   return (
-    <SkillContext.Provider value={{ skillList }}>
+    <SkillContext.Provider
+      value={{
+        skillList,
+        addSkill,
+        /*addEntry,
+        updateSkill,
+        updateEntry,
+        deleteSkill,
+        deleteEntry,*/
+      }}
+    >
       {children}
     </SkillContext.Provider>
   );

@@ -1,58 +1,93 @@
-import Entry from "@/models/entry";
-import { Image, StyleSheet, Text, View } from "react-native";
+import Skill from "@/models/skill";
+import { useState } from "react";
+import {
+  Alert,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from "react-native";
 
-export default function SkillDetail({ entry }: { entry: Entry }) {
+interface SkillDetailProps {
+  initialSkill?: Skill; //für Edit-Modus (vorausgefüllt)
+  onSave: (skill: Skill) => void;
+  /*onDelete?: (term: string) => void;
+  onCancel?: () => void;*/
+}
+
+export default function SkillDetail({
+  initialSkill,
+  onSave,
+  /*onDelete,
+  onCancel,*/
+}: SkillDetailProps) {
+  const [name, setName] = useState(initialSkill?.name || "");
+  const [goal, setGoal] = useState(initialSkill?.goal);
+  const [entries, setEntries] = useState(initialSkill?.entries || []);
+
+  const handleSave = () => {
+    //Validierung
+    if (!name.trim()) {
+      Alert.alert("Fehler", "Bitte den Namen ausfüllen");
+      return;
+    }
+
+    //Neues Objekt erstellen
+    const newSkill: Skill = { name, goal, entries };
+    onSave(newSkill);
+
+    //Felder zurücksetzen
+    setName("");
+    setGoal(0);
+    setEntries([]);
+  };
+
   return (
-    <View style={styles.card}>
-      <View style={styles.row}>
-        <Text style={styles.value}>{entry.value}</Text>
-        <Text style={styles.date}>{entry.date}</Text>
-      </View>
+    <View style={styles.container}>
+      <TextInput
+        style={styles.input}
+        placeholder={"Name"}
+        onChangeText={setName}
+      />
 
-      <Text style={styles.note}>{entry.note}</Text>
+      <TextInput
+        style={styles.input}
+        placeholder={"Ziel (optional)"}
+        keyboardType="numeric"
+        value={goal?.toString() || ""}
+        onChangeText={(text) => setGoal(text === "" ? undefined : Number(text))}
+      />
 
-      <Image source={{ uri: entry.photoUri }} style={styles.photo} />
+      <TouchableOpacity style={styles.saveButton} onPress={handleSave}>
+        <Text style={styles.saveButtonText}>Speichern</Text>
+      </TouchableOpacity>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  card: {
-    backgroundColor: "#fff",
-    padding: 16,
-    marginVertical: 8,
-    marginHorizontal: 16,
-    borderRadius: 12,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 3,
+  container: {
+    padding: 20,
   },
-  row: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    marginBottom: 8,
-  },
-  value: {
-    fontSize: 18,
-    fontWeight: "bold",
-    color: "#333",
-  },
-  date: {
-    fontSize: 14,
-    color: "#666",
-  },
-  note: {
-    fontSize: 15,
-    color: "#444",
-    marginBottom: 8,
-  },
-  //TODO: Bilder im Querformat sollen nicht abgeschnitten werden
-  photo: {
-    width: "100%",
-    height: 200,
+  input: {
+    borderWidth: 1,
+    borderColor: "#ccc",
     borderRadius: 8,
-    resizeMode: "cover",
+    padding: 10,
+    marginBottom: 12,
+  },
+  saveButton: {
+    backgroundColor: "#a2a1a2",
+    paddingVertical: 12,
+    paddingHorizontal: 20,
+    borderRadius: 8,
+    alignItems: "center",
+    marginTop: 20,
+  },
+  saveButtonText: {
+    color: "#fff",
+    fontWeight: "bold",
+    fontSize: 16,
   },
 });
