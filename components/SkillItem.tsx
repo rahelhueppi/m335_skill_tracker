@@ -1,11 +1,22 @@
-import { StyleSheet, Text, View } from "react-native";
+import { useRouter } from "expo-router";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import Skill from "../models/skill";
 
 export default function SkillItem({ skill }: { skill: Skill }) {
+  const router = useRouter();
+
   return (
-    <View style={styles.card}>
-      <Text style={styles.name}>{skill.name}</Text>
-    </View>
+    <TouchableOpacity
+      onPress={() => {
+        router.push(
+          `/skillDetailScreen?skillName=${encodeURIComponent(skill.name)}`,
+        );
+      }}
+    >
+      <View style={styles.card}>
+        <Text style={styles.name}>{skill.name}</Text>
+      </View>
+    </TouchableOpacity>
   );
 }
 

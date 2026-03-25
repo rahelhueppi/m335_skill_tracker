@@ -1,16 +1,27 @@
+import SkillDetail from "@/components/SkillDetail";
+import Skill from "@/models/skill";
+import { useLocalSearchParams, useRouter } from "expo-router";
 import { FlatList, StyleSheet, Text, View } from "react-native";
-import SkillItem from "../components/SkillItem";
-import Skill from "../models/skill";
 
-export default function Index() {
+export default function skillDetailScreen() {
+  const router = useRouter();
+  const { skillName } = useLocalSearchParams();
+
+  const skill = testSkills.find((v) => v.name === skillName);
+
+  if (!skill) {
+    router.back();
+    //TODO: Errormeldung
+  }
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Skill Tracker</Text>
+      <Text style={styles.name}>{skill?.name}</Text>
+      {skill?.goal && <Text style={styles.goal}>Ziel: {skill?.goal}</Text>}
 
       <FlatList
-        data={testSkills}
-        keyExtractor={(item) => item.name}
-        renderItem={({ item }) => <SkillItem skill={item} />}
+        data={skill?.entries}
+        keyExtractor={(item) => item.id}
+        renderItem={({ item }) => <SkillDetail entry={item} />}
       />
     </View>
   );
@@ -83,8 +94,12 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
   },
-  title: {
-    fontSize: 23,
+  name: {
+    fontSize: 20,
     fontWeight: "bold",
+  },
+  goal: {
+    fontSize: 15,
+    color: "#444",
   },
 });
