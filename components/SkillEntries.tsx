@@ -11,7 +11,7 @@ export default function SkillEntries({ entry }: { entry: Entry }) {
 
       <Text style={styles.note}>{entry.note}</Text>
 
-      <Image source={{ uri: entry.photoUri }} style={styles.photo} />
+      <Image source={{ uri: entry.mediaUri }} style={styles.photo} />
     </View>
   );
 }

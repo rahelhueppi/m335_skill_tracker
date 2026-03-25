@@ -1,7 +1,7 @@
 interface Entry {
   id: string;
   date: string;
-  photoUri: string;
+  mediaUri: string;
   value?: number;
   note?: string;
 }

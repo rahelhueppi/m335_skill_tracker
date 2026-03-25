@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
+import ImagePickerButton from "./ImagePickerButton";
 
 interface EntryDetailProps {
   initialEntry?: Entry; //für Edit-Modus (vorausgefüllt)
@@ -23,13 +24,13 @@ export default function EntryDetail({
 }: EntryDetailProps) {
   const [id, setId] = useState(initialEntry?.id || ""); //TODO: id generieren, nicht user Input
   const [date, setDate] = useState(initialEntry?.date || "");
-  const [photoUri, setPhotoUri] = useState(initialEntry?.photoUri || "");
+  const [mediaUri, setPhotoUri] = useState(initialEntry?.mediaUri || "");
   const [value, setValue] = useState(initialEntry?.value);
   const [note, setNote] = useState(initialEntry?.note);
 
   const handleSave = () => {
     //Neues Objekt erstellen
-    const newEntry: Entry = { id, date, photoUri, value, note };
+    const newEntry: Entry = { id, date, mediaUri, value, note };
     onSave(newEntry);
 
     //Felder zurücksetzen
@@ -52,13 +53,6 @@ export default function EntryDetail({
         onChangeText={setDate}
       />
 
-      {/*TODO: Bild hochladen, nicht URL*/}
-      <TextInput
-        style={styles.input}
-        placeholder={"Foto-URL"}
-        onChangeText={setPhotoUri}
-      />
-
       <TextInput
         style={styles.input}
         placeholder={"Wert (optional)"}
@@ -67,6 +61,11 @@ export default function EntryDetail({
         onChangeText={(text) =>
           setValue(text === "" ? undefined : Number(text))
         }
+      />
+
+      <ImagePickerButton
+        mediaUri={mediaUri}
+        onImageSelected={(uri) => setPhotoUri(uri)}
       />
 
       <TextInput

@@ -23,14 +23,14 @@ export function SkillProvider({ children }: { children: ReactNode }) {
         {
           id: "1",
           date: "2026-03-20",
-          photoUri: "file://photo1.jpg",
+          mediaUri: "file://photo1.jpg",
           value: 110,
           note: "noch nicht ganz stabil",
         },
         {
           id: "2",
           date: "2026-03-22",
-          photoUri: "file://photo2.jpg",
+          mediaUri: "file://photo2.jpg",
           value: 120,
           note: "besserer turnout",
         },
@@ -43,7 +43,7 @@ export function SkillProvider({ children }: { children: ReactNode }) {
         {
           id: "3",
           date: "2026-03-21",
-          photoUri:
+          mediaUri:
             "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTxWZL7-RjhrSQVB9RS-PbGbCyzfWkYVEKI1A&s",
           value: 5,
           note: "mit Blöcken",
@@ -51,7 +51,7 @@ export function SkillProvider({ children }: { children: ReactNode }) {
         {
           id: "4",
           date: "2026-03-24",
-          photoUri:
+          mediaUri:
             "https://i.redd.it/working-on-oversplits-and-wanted-to-share-my-progress-the-v0-nw4zsi7y488a1.jpg?width=3468&format=pjpg&auto=webp&s=057e78785a04ce3a50e404ea14c41776531cc943",
           value: 10,
           note: "Ziel erreicht",
@@ -64,13 +64,13 @@ export function SkillProvider({ children }: { children: ReactNode }) {
         {
           id: "5",
           date: "2026-03-18",
-          photoUri: "file://photo5.jpg",
+          mediaUri: "file://photo5.jpg",
           note: "erste Durchläufe, unsicher",
         },
         {
           id: "6",
           date: "2026-03-25",
-          photoUri: "file://photo6.jpg",
+          mediaUri: "file://photo6.jpg",
           note: "viel sauberer und sicherer",
         },
       ],
