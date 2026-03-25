@@ -1,7 +1,7 @@
 import SkillDetail from "@/components/SkillEntries";
 import { useSkill } from "@/context/skillContext";
 import { useLocalSearchParams, useRouter } from "expo-router";
-import { FlatList, StyleSheet, Text, View } from "react-native";
+import { FlatList, Pressable, StyleSheet, Text, View } from "react-native";
 
 export default function skillDetailScreen() {
   const router = useRouter();
@@ -24,6 +24,15 @@ export default function skillDetailScreen() {
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => <SkillDetail entry={item} />}
       />
+      <Pressable
+        style={({ pressed }) => [styles.fab, pressed && styles.fabPressed]}
+        onPress={() => {
+          if (!skill) return;
+          router.push(`/addEntry?skillName=${encodeURIComponent(skill?.name)}`);
+        }}
+      >
+        <Text style={styles.buttonText}>+</Text>
+      </Pressable>
     </View>
   );
 }
@@ -40,5 +49,43 @@ const styles = StyleSheet.create({
   goal: {
     fontSize: 15,
     color: "#444",
+  },
+  fab: {
+    position: "absolute",
+    bottom: 50,
+    right: 50,
+    height: 60,
+    width: 60,
+    backgroundColor: "#433c70",
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 30,
+
+    shadowColor: "#000",
+    shadowOffset: { width: 1, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
+  },
+  fabPressed: {
+    position: "absolute",
+    bottom: 50,
+    right: 50,
+    height: 60,
+    width: 60,
+    backgroundColor: "#867fad",
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 30,
+
+    shadowColor: "#000",
+    shadowOffset: { width: 1, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
+  },
+  buttonText: {
+    fontSize: 35,
+    color: "#ffffff",
+    marginBottom: 4,
+    fontWeight: "bold",
   },
 });

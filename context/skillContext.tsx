@@ -1,11 +1,12 @@
+import Entry from "@/models/entry";
 import Skill from "@/models/skill";
 import { createContext, ReactNode, useContext, useState } from "react";
 
 interface SkillContextType {
   skillList: Skill[];
   addSkill: (skill: Skill) => void;
-  /*addEntry: (entry: Entry) => void;
-  updateSkill: (name: string, updatedSkill: Skill) => void;
+  addEntry: (skillName: string, entry: Entry) => void;
+  /*updateSkill: (name: string, updatedSkill: Skill) => void;
   updateEntry: (id: string, updatedentry: Entry) => void;
   deleteSkill: (name: string) => void;
   deleteEntry: (id: string) => void;*/
@@ -80,13 +81,23 @@ export function SkillProvider({ children }: { children: ReactNode }) {
     setSkillList([...skillList, skill]);
   };
 
+  const addEntry = (skillName: string, entry: Entry) => {
+    setSkillList((prevList) =>
+      prevList.map((skill) =>
+        skill.name === skillName
+          ? { ...skill, entries: [...skill.entries, entry] }
+          : skill,
+      ),
+    );
+  };
+
   return (
     <SkillContext.Provider
       value={{
         skillList,
         addSkill,
-        /*addEntry,
-        updateSkill,
+        addEntry,
+        /*updateSkill,
         updateEntry,
         deleteSkill,
         deleteEntry,*/
