@@ -1,4 +1,4 @@
-import SkillDetail from "@/components/SkillEntries";
+import SkillEntries from "@/components/SkillEntries";
 import { useSkill } from "@/context/skillContext";
 import { Stack, useLocalSearchParams, useRouter } from "expo-router";
 import { FlatList, Pressable, StyleSheet, Text, View } from "react-native";
@@ -28,7 +28,7 @@ export default function skillDetailScreen() {
               }}
               style={{ marginRight: 15 }}
             >
-              <Text style={{ marginLeft: 5, color: "#000000", fontSize: 16 }}>
+              <Text style={{ marginLeft: 14, color: "#000000", fontSize: 16 }}>
                 Edit
               </Text>
             </Pressable>
@@ -43,7 +43,7 @@ export default function skillDetailScreen() {
         <FlatList
           data={skill?.entries}
           keyExtractor={(item) => item.id}
-          renderItem={({ item }) => <SkillDetail entry={item} />}
+          renderItem={({ item }) => <SkillEntries entry={item} />}
         />
 
         <Pressable
@@ -65,13 +65,16 @@ export default function skillDetailScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: "center",
+    paddingHorizontal: 16,
+    paddingTop: 10,
+    backgroundColor: "#f8f8fa",
   },
   goal: {
     marginTop: 15,
     marginBottom: 5,
     fontSize: 17,
     color: "#444",
+    alignSelf: "center",
   },
   fab: {
     position: "absolute",

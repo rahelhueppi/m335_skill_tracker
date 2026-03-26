@@ -18,5 +18,9 @@ export default function addEntry() {
     router.back();
   };
 
-  return <EntryDetail onSave={handleAdd} />;
+  const handleCancel = () => {
+    router.back();
+  };
+
+  return <EntryDetail onSave={handleAdd} onCancel={handleCancel} />;
 }

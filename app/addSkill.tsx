@@ -12,5 +12,9 @@ export default function addSkill() {
     router.back();
   };
 
-  return <SkillDetail onSave={handleAdd} />;
+  const handleCancel = () => {
+    router.back();
+  };
+
+  return <SkillDetail onSave={handleAdd} onCancel={handleCancel} />;
 }

@@ -22,8 +22,18 @@ export default function EntryDetail({
   onDelete,
   onCancel,
 }: EntryDetailProps) {
-  const [id, setId] = useState(initialEntry?.id || ""); //TODO: id generieren, nicht user Input
-  const [date, setDate] = useState(initialEntry?.date || "");
+  const generateId = () => Math.random().toString(36).substr(2, 10);
+
+  const getToday = () => {
+    const today = new Date();
+    const day = String(today.getDate()).padStart(2, "0");
+    const month = String(today.getMonth() + 1).padStart(2, "0");
+    const year = today.getFullYear();
+    return `${day}.${month}.${year}`;
+  };
+
+  const [id, setId] = useState(initialEntry?.id || generateId);
+  const [date, setDate] = useState(initialEntry?.date || getToday);
   const [mediaUri, setPhotoUri] = useState(initialEntry?.mediaUri || "");
   const [value, setValue] = useState(initialEntry?.value);
   const [note, setNote] = useState(initialEntry?.note);
@@ -55,14 +65,6 @@ export default function EntryDetail({
 
   return (
     <View style={styles.container}>
-      {/*TODO: Id automatisch setzen*/}
-      <TextInput
-        style={styles.input}
-        placeholder={"Id"}
-        onChangeText={setId}
-        value={id}
-      />
-
       {/*TODO: autofill mit aktuellem Datum*/}
       <TextInput
         style={styles.input}
@@ -97,9 +99,11 @@ export default function EntryDetail({
         <Text style={styles.buttonText}>Speichern</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity style={styles.button} onPress={handleDelete}>
-        <Text style={styles.buttonText}>Löschen</Text>
-      </TouchableOpacity>
+      {initialEntry && (
+        <TouchableOpacity style={styles.button} onPress={handleDelete}>
+          <Text style={styles.buttonText}>Löschen</Text>
+        </TouchableOpacity>
+      )}
 
       <TouchableOpacity style={styles.button} onPress={handleCancel}>
         <Text style={styles.buttonText}>Abbrechen</Text>

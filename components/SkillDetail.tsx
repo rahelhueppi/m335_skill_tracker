@@ -1,3 +1,4 @@
+import { useSkill } from "@/context/skillContext";
 import Skill from "@/models/skill";
 import { useState } from "react";
 import {
@@ -26,10 +27,17 @@ export default function SkillDetail({
   const [goal, setGoal] = useState(initialSkill?.goal);
   const [entries, setEntries] = useState(initialSkill?.entries || []);
 
+  const { skillList } = useSkill();
+
   const handleSave = () => {
     //Validierung
     if (!name.trim()) {
       Alert.alert("Fehler", "Bitte den Namen ausfüllen");
+      return;
+    }
+
+    if (!initialSkill && skillList.some((s) => s.name === name.trim())) {
+      Alert.alert("Fehler", "Dieser Skill-Name existiert bereits!");
       return;
     }
 
@@ -76,9 +84,11 @@ export default function SkillDetail({
         <Text style={styles.buttonText}>Speichern</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity style={styles.button} onPress={handleDelete}>
-        <Text style={styles.buttonText}>Löschen</Text>
-      </TouchableOpacity>
+      {initialSkill && (
+        <TouchableOpacity style={styles.button} onPress={handleDelete}>
+          <Text style={styles.buttonText}>Löschen</Text>
+        </TouchableOpacity>
+      )}
 
       <TouchableOpacity style={styles.button} onPress={handleCancel}>
         <Text style={styles.buttonText}>Abbrechen</Text>

@@ -75,7 +75,7 @@ export function SkillProvider({ children }: { children: ReactNode }) {
   };
 
   const deleteSkill = (skillName: string) => {
-    setSkillList((prev) => prev.filter((s) => s.name === skillName));
+    setSkillList((prev) => prev.filter((s) => s.name !== skillName));
   };
 
   const updateEntry = (entryId: string, updatedEntry: Entry) => {
