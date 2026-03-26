@@ -78,26 +78,35 @@ export default function ImagePickerButton({
 
 const styles = StyleSheet.create({
   container: {
-    width: 120,
-    height: 120,
-    borderRadius: 12,
+    width: 130,
+    height: 130,
+    borderRadius: 16,
     overflow: "hidden",
     borderWidth: 1,
-    borderColor: "#ccc",
-    marginBottom: 15,
+    borderColor: "#d1d1d6",
+    marginBottom: 20,
+    backgroundColor: "#fff",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 3 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
   },
   image: {
     width: "100%",
     height: "100%",
+    resizeMode: "cover",
   },
   placeholder: {
     flex: 1,
-    backgroundColor: "#eee",
+    backgroundColor: "#ded8e0",
     justifyContent: "center",
     alignItems: "center",
   },
   placeholderText: {
-    color: "#666",
+    color: "#796e7e",
     textAlign: "center",
+    fontWeight: "600",
+    fontSize: 14,
   },
 });

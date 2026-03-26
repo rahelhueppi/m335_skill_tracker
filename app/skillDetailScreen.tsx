@@ -38,7 +38,6 @@ export default function skillDetailScreen() {
       />
 
       <View style={styles.container}>
-        <Text style={styles.name}>{skill?.name}</Text>
         {skill?.goal && <Text style={styles.goal}>Ziel: {skill?.goal}</Text>}
 
         <FlatList
@@ -68,45 +67,30 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
   },
-  name: {
-    fontSize: 20,
-    fontWeight: "bold",
-  },
   goal: {
-    fontSize: 15,
+    marginTop: 15,
+    marginBottom: 5,
+    fontSize: 17,
     color: "#444",
   },
   fab: {
     position: "absolute",
-    bottom: 50,
-    right: 50,
+    bottom: 30,
+    right: 30,
     height: 60,
     width: 60,
-    backgroundColor: "#433c70",
+    backgroundColor: "#322d34",
     justifyContent: "center",
     alignItems: "center",
     borderRadius: 30,
-
     shadowColor: "#000",
-    shadowOffset: { width: 1, height: 4 },
+    shadowOffset: { width: 0, height: 6 },
     shadowOpacity: 0.3,
-    shadowRadius: 4,
+    shadowRadius: 6,
+    elevation: 6,
   },
   fabPressed: {
-    position: "absolute",
-    bottom: 50,
-    right: 50,
-    height: 60,
-    width: 60,
-    backgroundColor: "#867fad",
-    justifyContent: "center",
-    alignItems: "center",
-    borderRadius: 30,
-
-    shadowColor: "#000",
-    shadowOffset: { width: 1, height: 4 },
-    shadowOpacity: 0.3,
-    shadowRadius: 4,
+    backgroundColor: "#665c6a",
   },
   buttonText: {
     fontSize: 35,
