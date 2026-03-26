@@ -1,9 +1,17 @@
 import Entry from "@/models/entry";
+import { ResizeMode, Video } from "expo-av";
 import { useRouter } from "expo-router";
 import { Image, Pressable, StyleSheet, Text, View } from "react-native";
 
 export default function SkillEntries({ entry }: { entry: Entry }) {
   const router = useRouter();
+
+  const isVideo = entry.mediaUri
+    ? entry.mediaUri.endsWith(".mp4") ||
+      entry.mediaUri.endsWith(".mov") ||
+      entry.mediaUri.endsWith(".mkv")
+    : false;
+
   return (
     <Pressable
       style={styles.card}
@@ -19,7 +27,16 @@ export default function SkillEntries({ entry }: { entry: Entry }) {
       <Text style={styles.note}>{entry.note}</Text>
 
       {entry.mediaUri ? (
-        <Image source={{ uri: entry.mediaUri }} style={styles.photo} />
+        isVideo ? (
+          <Video
+            source={{ uri: entry.mediaUri }}
+            style={styles.media}
+            useNativeControls
+            resizeMode={ResizeMode.CONTAIN}
+          />
+        ) : (
+          <Image source={{ uri: entry.mediaUri }} style={styles.media} />
+        )
       ) : null}
     </Pressable>
   );
@@ -57,11 +74,10 @@ const styles = StyleSheet.create({
     color: "#444",
     marginBottom: 10,
   },
-  photo: {
+  media: {
     width: "100%",
     height: 220,
     borderRadius: 12,
-    resizeMode: "cover",
     backgroundColor: "#f0f0f5",
   },
 });

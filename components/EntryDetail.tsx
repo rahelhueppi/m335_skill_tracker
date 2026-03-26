@@ -65,7 +65,6 @@ export default function EntryDetail({
 
   return (
     <View style={styles.container}>
-      {/*TODO: autofill mit aktuellem Datum*/}
       <TextInput
         style={styles.input}
         placeholder={"DD.MM.YYYY"}

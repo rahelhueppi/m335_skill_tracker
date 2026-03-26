@@ -18,9 +18,9 @@ export default function ImagePickerButton({
   onImageSelected,
 }: ImagePickerButtonProps) {
   const pickImage = async () => {
-    Alert.alert("Foto", "Option auswählen", [
+    Alert.alert("Medien", "Option auswählen", [
       {
-        text: "Foto aufnehmen",
+        text: "Foto oder Video aufnehmen",
         onPress: async () => {
           // Permissions anfragen
           const { status } = await ImagePicker.requestCameraPermissionsAsync();
@@ -29,7 +29,7 @@ export default function ImagePickerButton({
             return;
           }
           const result = await ImagePicker.launchCameraAsync({
-            mediaTypes: ["images" /*, "videos"*/],
+            mediaTypes: ["images", "videos"],
             quality: 0.5,
           });
           if (!result.canceled) {
@@ -48,7 +48,7 @@ export default function ImagePickerButton({
           }
 
           const result = await ImagePicker.launchImageLibraryAsync({
-            mediaTypes: ["images" /*, "videos"*/],
+            mediaTypes: ["images", "videos"],
             quality: 0.5,
           });
           if (!result.canceled) {
