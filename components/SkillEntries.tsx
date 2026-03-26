@@ -1,9 +1,16 @@
 import Entry from "@/models/entry";
-import { Image, StyleSheet, Text, View } from "react-native";
+import { useRouter } from "expo-router";
+import { Image, Pressable, StyleSheet, Text, View } from "react-native";
 
 export default function SkillEntries({ entry }: { entry: Entry }) {
+  const router = useRouter();
   return (
-    <View style={styles.card}>
+    <Pressable
+      style={styles.card}
+      onPress={() =>
+        router.push(`/editEntry?entryId=${encodeURIComponent(entry.id)}`)
+      }
+    >
       <View style={styles.row}>
         <Text style={styles.value}>{entry.value}</Text>
         <Text style={styles.date}>{entry.date}</Text>
@@ -11,8 +18,10 @@ export default function SkillEntries({ entry }: { entry: Entry }) {
 
       <Text style={styles.note}>{entry.note}</Text>
 
-      <Image source={{ uri: entry.mediaUri }} style={styles.photo} />
-    </View>
+      {entry.mediaUri ? (
+        <Image source={{ uri: entry.mediaUri }} style={styles.photo} />
+      ) : null}
+    </Pressable>
   );
 }
 

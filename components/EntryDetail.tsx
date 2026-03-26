@@ -12,15 +12,15 @@ import ImagePickerButton from "./ImagePickerButton";
 interface EntryDetailProps {
   initialEntry?: Entry; //für Edit-Modus (vorausgefüllt)
   onSave: (entry: Entry) => void;
-  /*onDelete?: (term: string) => void;
-  onCancel?: () => void;*/
+  onDelete?: (term: string) => void;
+  onCancel?: () => void;
 }
 
 export default function EntryDetail({
   initialEntry,
   onSave,
-  /*onDelete,
-  onCancel,*/
+  onDelete,
+  onCancel,
 }: EntryDetailProps) {
   const [id, setId] = useState(initialEntry?.id || ""); //TODO: id generieren, nicht user Input
   const [date, setDate] = useState(initialEntry?.date || "");
@@ -41,16 +41,34 @@ export default function EntryDetail({
     setNote("");
   };
 
+  const handleDelete = () => {
+    if (onDelete && id) {
+      onDelete(id);
+    }
+  };
+
+  const handleCancel = () => {
+    if (onCancel) {
+      onCancel();
+    }
+  };
+
   return (
     <View style={styles.container}>
       {/*TODO: Id automatisch setzen*/}
-      <TextInput style={styles.input} placeholder={"Id"} onChangeText={setId} />
+      <TextInput
+        style={styles.input}
+        placeholder={"Id"}
+        onChangeText={setId}
+        value={id}
+      />
 
       {/*TODO: autofill mit aktuellem Datum*/}
       <TextInput
         style={styles.input}
         placeholder={"DD.MM.YYYY"}
         onChangeText={setDate}
+        value={date}
       />
 
       <TextInput
@@ -72,10 +90,19 @@ export default function EntryDetail({
         style={styles.input}
         placeholder={"Notiz (optional)"}
         onChangeText={setNote}
+        value={note}
       />
 
-      <TouchableOpacity style={styles.saveButton} onPress={handleSave}>
-        <Text style={styles.saveButtonText}>Speichern</Text>
+      <TouchableOpacity style={styles.button} onPress={handleSave}>
+        <Text style={styles.buttonText}>Speichern</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity style={styles.button} onPress={handleDelete}>
+        <Text style={styles.buttonText}>Löschen</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity style={styles.button} onPress={handleCancel}>
+        <Text style={styles.buttonText}>Abbrechen</Text>
       </TouchableOpacity>
     </View>
   );
@@ -92,7 +119,7 @@ const styles = StyleSheet.create({
     padding: 10,
     marginBottom: 12,
   },
-  saveButton: {
+  button: {
     backgroundColor: "#a2a1a2",
     paddingVertical: 12,
     paddingHorizontal: 20,
@@ -100,7 +127,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginTop: 20,
   },
-  saveButtonText: {
+  buttonText: {
     color: "#fff",
     fontWeight: "bold",
     fontSize: 16,

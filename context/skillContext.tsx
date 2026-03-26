@@ -7,9 +7,9 @@ interface SkillContextType {
   addSkill: (skill: Skill) => void;
   addEntry: (skillName: string, entry: Entry) => void;
   updateSkill: (name: string, updatedSkill: Skill) => void;
-  //updateEntry: (id: string, updatedentry: Entry) => void;
+  updateEntry: (id: string, updatedentry: Entry) => void;
   deleteSkill: (name: string) => void;
-  //deleteEntry: (id: string) => void;
+  deleteEntry: (id: string) => void;
 }
 
 const SkillContext = createContext<SkillContextType | undefined>(undefined);
@@ -101,6 +101,26 @@ export function SkillProvider({ children }: { children: ReactNode }) {
     setSkillList((prev) => prev.filter((s) => s.name === skillName));
   };
 
+  const updateEntry = (entryId: string, updatedEntry: Entry) => {
+    setSkillList((prevList) =>
+      prevList.map((skill) => ({
+        ...skill,
+        entries: skill.entries.map((entry) =>
+          entry.id === entryId ? updatedEntry : entry,
+        ),
+      })),
+    );
+  };
+
+  const deleteEntry = (entryId: string) => {
+    setSkillList((prevList) =>
+      prevList.map((skill) => ({
+        ...skill,
+        entries: skill.entries.filter((entry) => entry.id !== entryId),
+      })),
+    );
+  };
+
   return (
     <SkillContext.Provider
       value={{
@@ -108,9 +128,9 @@ export function SkillProvider({ children }: { children: ReactNode }) {
         addSkill,
         addEntry,
         updateSkill,
-        //updateEntry,
+        updateEntry,
         deleteSkill,
-        //deleteEntry,
+        deleteEntry,
       }}
     >
       {children}

@@ -72,15 +72,15 @@ export default function SkillDetail({
         onChangeText={(text) => setGoal(text === "" ? undefined : Number(text))}
       />
 
-      <TouchableOpacity style={styles.saveButton} onPress={handleSave}>
+      <TouchableOpacity style={styles.button} onPress={handleSave}>
         <Text style={styles.buttonText}>Speichern</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity style={styles.saveButton} onPress={handleDelete}>
+      <TouchableOpacity style={styles.button} onPress={handleDelete}>
         <Text style={styles.buttonText}>Löschen</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity style={styles.saveButton} onPress={handleCancel}>
+      <TouchableOpacity style={styles.button} onPress={handleCancel}>
         <Text style={styles.buttonText}>Abbrechen</Text>
       </TouchableOpacity>
     </View>
@@ -98,7 +98,7 @@ const styles = StyleSheet.create({
     padding: 10,
     marginBottom: 12,
   },
-  saveButton: {
+  button: {
     backgroundColor: "#a2a1a2",
     paddingVertical: 12,
     paddingHorizontal: 20,
