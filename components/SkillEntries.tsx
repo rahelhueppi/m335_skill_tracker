@@ -13,18 +13,19 @@ export default function SkillEntries({ entry }: { entry: Entry }) {
     : false;
 
   return (
-    <Pressable
-      style={styles.card}
-      onPress={() =>
-        router.push(`/editEntry?entryId=${encodeURIComponent(entry.id)}`)
-      }
-    >
-      <View style={styles.row}>
-        <Text style={styles.value}>{entry.value}</Text>
-        <Text style={styles.date}>{entry.date}</Text>
-      </View>
+    <View style={styles.card}>
+      <Pressable
+        onPress={() =>
+          router.push(`/editEntry?entryId=${encodeURIComponent(entry.id)}`)
+        }
+      >
+        <View style={styles.row}>
+          <Text style={styles.value}>{entry.value}</Text>
+          <Text style={styles.date}>{entry.date}</Text>
+        </View>
 
-      <Text style={styles.note}>{entry.note}</Text>
+        <Text style={styles.note}>{entry.note}</Text>
+      </Pressable>
 
       {entry.mediaUri ? (
         isVideo ? (
@@ -35,10 +36,16 @@ export default function SkillEntries({ entry }: { entry: Entry }) {
             resizeMode={ResizeMode.CONTAIN}
           />
         ) : (
-          <Image source={{ uri: entry.mediaUri }} style={styles.media} />
+          <Pressable
+            onPress={() =>
+              router.push(`/editEntry?entryId=${encodeURIComponent(entry.id)}`)
+            }
+          >
+            <Image source={{ uri: entry.mediaUri }} style={styles.media} />
+          </Pressable>
         )
       ) : null}
-    </Pressable>
+    </View>
   );
 }
 
