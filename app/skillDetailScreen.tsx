@@ -1,6 +1,6 @@
 import SkillDetail from "@/components/SkillEntries";
 import { useSkill } from "@/context/skillContext";
-import { useLocalSearchParams, useRouter } from "expo-router";
+import { Stack, useLocalSearchParams, useRouter } from "expo-router";
 import { FlatList, Pressable, StyleSheet, Text, View } from "react-native";
 
 export default function skillDetailScreen() {
@@ -15,25 +15,51 @@ export default function skillDetailScreen() {
     //TODO: Errormeldung
   }
   return (
-    <View style={styles.container}>
-      <Text style={styles.name}>{skill?.name}</Text>
-      {skill?.goal && <Text style={styles.goal}>Ziel: {skill?.goal}</Text>}
-
-      <FlatList
-        data={skill?.entries}
-        keyExtractor={(item) => item.id}
-        renderItem={({ item }) => <SkillDetail entry={item} />}
-      />
-      <Pressable
-        style={({ pressed }) => [styles.fab, pressed && styles.fabPressed]}
-        onPress={() => {
-          if (!skill) return;
-          router.push(`/addEntry?skillName=${encodeURIComponent(skill?.name)}`);
+    <>
+      <Stack.Screen
+        options={{
+          headerRight: () => (
+            <Pressable
+              onPress={() => {
+                if (!skill) return;
+                router.push(
+                  `/editSkill?skillName=${encodeURIComponent(skill.name)}`,
+                );
+              }}
+              style={{ marginRight: 15 }}
+            >
+              <Text style={{ marginLeft: 5, color: "#000000", fontSize: 16 }}>
+                Edit
+              </Text>
+            </Pressable>
+          ),
+          title: skill?.name ?? "Skill Details",
         }}
-      >
-        <Text style={styles.buttonText}>+</Text>
-      </Pressable>
-    </View>
+      />
+
+      <View style={styles.container}>
+        <Text style={styles.name}>{skill?.name}</Text>
+        {skill?.goal && <Text style={styles.goal}>Ziel: {skill?.goal}</Text>}
+
+        <FlatList
+          data={skill?.entries}
+          keyExtractor={(item) => item.id}
+          renderItem={({ item }) => <SkillDetail entry={item} />}
+        />
+
+        <Pressable
+          style={({ pressed }) => [styles.fab, pressed && styles.fabPressed]}
+          onPress={() => {
+            if (!skill) return;
+            router.push(
+              `/addEntry?skillName=${encodeURIComponent(skill.name)}`,
+            );
+          }}
+        >
+          <Text style={styles.buttonText}>+</Text>
+        </Pressable>
+      </View>
+    </>
   );
 }
 

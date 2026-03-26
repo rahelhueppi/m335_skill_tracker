@@ -12,15 +12,15 @@ import {
 interface SkillDetailProps {
   initialSkill?: Skill; //für Edit-Modus (vorausgefüllt)
   onSave: (skill: Skill) => void;
-  /*onDelete?: (term: string) => void;
-  onCancel?: () => void;*/
+  onDelete?: (term: string) => void;
+  onCancel?: () => void;
 }
 
 export default function SkillDetail({
   initialSkill,
   onSave,
-  /*onDelete,
-  onCancel,*/
+  onDelete,
+  onCancel,
 }: SkillDetailProps) {
   const [name, setName] = useState(initialSkill?.name || "");
   const [goal, setGoal] = useState(initialSkill?.goal);
@@ -43,12 +43,25 @@ export default function SkillDetail({
     setEntries([]);
   };
 
+  const handleDelete = () => {
+    if (onDelete && initialSkill) {
+      onDelete(initialSkill.name);
+    }
+  };
+
+  const handleCancel = () => {
+    if (onCancel) {
+      onCancel();
+    }
+  };
+
   return (
     <View style={styles.container}>
       <TextInput
         style={styles.input}
         placeholder={"Name"}
         onChangeText={setName}
+        value={name}
       />
 
       <TextInput
@@ -60,7 +73,15 @@ export default function SkillDetail({
       />
 
       <TouchableOpacity style={styles.saveButton} onPress={handleSave}>
-        <Text style={styles.saveButtonText}>Speichern</Text>
+        <Text style={styles.buttonText}>Speichern</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity style={styles.saveButton} onPress={handleDelete}>
+        <Text style={styles.buttonText}>Löschen</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity style={styles.saveButton} onPress={handleCancel}>
+        <Text style={styles.buttonText}>Abbrechen</Text>
       </TouchableOpacity>
     </View>
   );
@@ -85,7 +106,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginTop: 20,
   },
-  saveButtonText: {
+  buttonText: {
     color: "#fff",
     fontWeight: "bold",
     fontSize: 16,
