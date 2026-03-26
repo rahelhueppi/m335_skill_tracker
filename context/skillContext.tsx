@@ -1,6 +1,13 @@
 import Entry from "@/models/entry";
 import Skill from "@/models/skill";
-import { createContext, ReactNode, useContext, useState } from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import {
+  createContext,
+  ReactNode,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 
 interface SkillContextType {
   skillList: Skill[];
@@ -15,67 +22,37 @@ interface SkillContextType {
 const SkillContext = createContext<SkillContextType | undefined>(undefined);
 
 export function SkillProvider({ children }: { children: ReactNode }) {
-  const [skillList, setSkillList] = useState<Skill[]>([
-    {
-      name: "Développé à la seconde",
-      goal: 135,
-      entries: [
-        {
-          id: "1",
-          date: "2026-03-20",
-          mediaUri: "file://photo1.jpg",
-          value: 110,
-          note: "noch nicht ganz stabil",
-        },
-        {
-          id: "2",
-          date: "2026-03-22",
-          mediaUri: "file://photo2.jpg",
-          value: 120,
-          note: "besserer turnout",
-        },
-      ],
-    },
-    {
-      name: "Oversplit",
-      goal: 10,
-      entries: [
-        {
-          id: "3",
-          date: "2026-03-21",
-          mediaUri:
-            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTxWZL7-RjhrSQVB9RS-PbGbCyzfWkYVEKI1A&s",
-          value: 5,
-          note: "mit Blöcken",
-        },
-        {
-          id: "4",
-          date: "2026-03-24",
-          mediaUri:
-            "https://i.redd.it/working-on-oversplits-and-wanted-to-share-my-progress-the-v0-nw4zsi7y488a1.jpg?width=3468&format=pjpg&auto=webp&s=057e78785a04ce3a50e404ea14c41776531cc943",
-          value: 10,
-          note: "Ziel erreicht",
-        },
-      ],
-    },
-    {
-      name: "Choreo Giselle Variation",
-      entries: [
-        {
-          id: "5",
-          date: "2026-03-18",
-          mediaUri: "file://photo5.jpg",
-          note: "erste Durchläufe, unsicher",
-        },
-        {
-          id: "6",
-          date: "2026-03-25",
-          mediaUri: "file://photo6.jpg",
-          note: "viel sauberer und sicherer",
-        },
-      ],
-    },
-  ]);
+  const [skillList, setSkillList] = useState<Skill[]>([]);
+
+  useEffect(() => {
+    const loadSkills = async () => {
+      try {
+        const storedSkills = await AsyncStorage.getItem("skills");
+
+        if (storedSkills !== null) {
+          const parsedSkills = JSON.parse(storedSkills);
+          setSkillList(parsedSkills);
+          console.log("Skills geladen");
+        }
+      } catch (error) {
+        console.log("Fehler beim Laden:", error);
+      }
+    };
+    loadSkills();
+  }, []);
+
+  useEffect(() => {
+    const saveSkills = async () => {
+      try {
+        const jsonSkillList = JSON.stringify(skillList);
+        await AsyncStorage.setItem("skills", jsonSkillList);
+        console.log("Skills gespeichert");
+      } catch (error) {
+        console.log("Fehler beim Speichern", error);
+      }
+    };
+    saveSkills();
+  }, [skillList]);
 
   const addSkill = (skill: Skill) => {
     setSkillList([...skillList, skill]);
